@@ -1,0 +1,12 @@
+[project]
+name = "grounded-shop-recommender"
+version = "0.1.0"
+description = "接地式店铺推荐管线：LLM 只做语言包装，不做事实生成——幻觉可被机械验证"
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,58 @@
+# 幻觉回归集：50 条固定问法（promptfoo 思想：声明式用例 + 断言 + CI 执行）。
+# 每条要么期望命中（expect_refuse=false，输出必须 100% 锚定候选集），
+# 要么期望拒答（expect_refuse=true，必须输出标准拒答话术且不出现任何店名）。
+# 本文件是机械验收判据（问题报告 §2.4-1）：任何改动跑通全量 = 100% 命中。
+queries:
+  # --- A. 命中类（35 条）：区域/标签/预算/口语变体 ---
+  - {id: q01, q: "青岛台东附近有什么宝藏苍蝇馆子", expect_refuse: false}
+  - {id: q02, q: "台东八路那边吃海鲜去哪家", expect_refuse: false}
+  - {id: q03, q: "台东三路步行街逛累了想吃锅贴", expect_refuse: false}
+  - {id: q04, q: "台东有没有评分高的苍蝇馆子 求推荐", expect_refuse: false}
+  - {id: q05, q: "利群附近想吃碗馄饨", expect_refuse: false}
+  - {id: q06, q: "威海路晚上撸串 烧烤", expect_refuse: false}
+  - {id: q07, q: "威海路的深夜食堂有哪些", expect_refuse: false}
+  - {id: q08, q: "营口路市场附近炸串", expect_refuse: false}
+  - {id: q09, q: "营口路吃小海鲜人均100以内", expect_refuse: false}
+  - {id: q10, q: "洮南路羊汤馆哪家好", expect_refuse: false}
+  - {id: q11, q: "登州路啤酒街配点烧烤", expect_refuse: false}
+  - {id: q12, q: "登州路有家常菜吗", expect_refuse: false}
+  - {id: q13, q: "延安二路大排档", expect_refuse: false}
+  - {id: q14, q: "镇江路深夜吃烧烤", expect_refuse: false}
+  - {id: q15, q: "海泊河早市有早餐吗", expect_refuse: false}
+  - {id: q16, q: "台东吃饺子 好吃的水饺", expect_refuse: false}
+  - {id: q17, q: "台东人均30以内的家常菜", expect_refuse: false}
+  - {id: q18, q: "台东老字号面食", expect_refuse: false}
+  - {id: q19, q: "晚上想吃馄饨 台东附近", expect_refuse: false}
+  - {id: q20, q: "台东锅贴哪家好吃", expect_refuse: false}
+  - {id: q21, q: "营口路炸串配散啤", expect_refuse: false}
+  - {id: q22, q: "台东小巷子里的苍蝇馆子 宝藏小店", expect_refuse: false}
+  - {id: q23, q: "营口路啤酒屋求推荐", expect_refuse: false}
+  - {id: q24, q: "威海路麻辣烫小吃", expect_refuse: false}
+  - {id: q25, q: "镇江路有拉面吗 面食", expect_refuse: false}
+  - {id: q26, q: "台东三路利群后门有什么吃的", expect_refuse: false}
+  - {id: q27, q: "夜宵去哪吃 台东一带 烧烤", expect_refuse: false}
+  - {id: q28, q: "台东推荐几家好吃的", expect_refuse: false}
+  - {id: q29, q: "人和路饺子馆", expect_refuse: false}
+  - {id: q30, q: "预算50 台东吃啥", expect_refuse: false}
+  - {id: q32, q: "郭口路一带锅贴", expect_refuse: false}
+  - {id: q33, q: "福山路想吃辣的 面食", expect_refuse: false}
+  - {id: q35, q: "台东有什么美食", expect_refuse: false}
+  - {id: q36b, q: "台东八路有海鲜大排档吗", expect_refuse: false}
+  - {id: q37b, q: "威海路烤鱿鱼去哪家", expect_refuse: false}
+  # --- B. 拒答类（12 条）：未覆盖区域 / 无匹配品类 / 约束过窄 ---
+  - {id: q36, q: "李沧区有什么好吃的苍蝇馆子", expect_refuse: true}
+  - {id: q37, q: "市南区海边吃海鲜", expect_refuse: true}
+  - {id: q38, q: "崂山区晚上撸串", expect_refuse: true}
+  - {id: q39, q: "城阳区的锅贴", expect_refuse: true}
+  - {id: q40, q: "黄岛有什么苍蝇馆子", expect_refuse: true}
+  - {id: q41, q: "即墨吃羊汤", expect_refuse: true}
+  - {id: q42, q: "台东有法餐吗", expect_refuse: true}
+  - {id: q43, q: "台东日料推荐", expect_refuse: true}
+  - {id: q44, q: "台东有火锅吗", expect_refuse: true}
+  - {id: q45, q: "登州路吃馄饨", expect_refuse: true}
+  - {id: q46, q: "威海路有早餐摊吗", expect_refuse: true}
+  - {id: q47, q: "台东有素食餐厅吗", expect_refuse: true}
+  # --- C. 边界类（3 条）：纯闲聊 / 无信号 ---
+  - {id: q48, q: "今天天气怎么样", expect_refuse: true}
+  - {id: q49, q: "帮我写一首诗", expect_refuse: true}
+  - {id: q50, q: "推荐个电影", expect_refuse: true}
