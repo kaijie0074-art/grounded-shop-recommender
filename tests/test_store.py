@@ -5,7 +5,9 @@
 """
 from __future__ import annotations
 
+import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
@@ -14,24 +16,6 @@ from grounded_shop.llm import TemplateWrapperLLM
 from grounded_shop.models import Shop
 from grounded_shop.query import parse_query
 from grounded_shop.store import ShopStore
-
-
-class TestDataQuality:
-    def test_all_sources_nonempty(self, store):
-        """验收判据：数据来源字段 100% 非空（可追溯）。"""
-        for s in store._shops.values():
-            assert s.source and s.source.strip()
-
-    def test_source_placeholder_rejected(self):
-        with pytest.raises(Exception):
-            Shop(**{**_row("X1"), "source": ""})
-
-    def test_dataset_marked_simulated(self, store):
-        """数据诚信：种子数据集必须显式标注 SIMULATED。"""
-        import json
-        from pathlib import Path
-        meta = json.loads((Path(__file__).parents[1] / "data" / "shops.json").read_text(encoding="utf-8"))["_meta"]
-        assert meta["dataset"] == "SIMULATED_SEED_DATA"
 
 
 def _row(sid: str, **over):
@@ -46,6 +30,22 @@ def _row(sid: str, **over):
 
 def mk_store(rows):
     return ShopStore([Shop(**r) for r in rows], reference_date=date(2026, 10, 13))
+
+
+class TestDataQuality:
+    def test_all_sources_nonempty(self, store):
+        """验收判据：数据来源字段 100% 非空（可追溯）。经公开只读接口（评审 OB-4）。"""
+        for s in store.all_shops:
+            assert s.source and s.source.strip()
+
+    def test_source_placeholder_rejected(self):
+        with pytest.raises(Exception):
+            Shop(**{**_row("X1"), "source": ""})
+
+    def test_dataset_marked_simulated(self, store):
+        """数据诚信：种子数据集必须显式标注 SIMULATED。"""
+        meta = json.loads((Path(__file__).parents[1] / "data" / "shops.json").read_text(encoding="utf-8"))["_meta"]
+        assert meta["dataset"] == "SIMULATED_SEED_DATA"
 
 
 class TestStoreRules:

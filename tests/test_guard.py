@@ -60,8 +60,13 @@ class TestR4FabricatedName:
         assert not v.ok
         assert any("老张秘制海鲜楼" in viol for viol in v.violations)
 
+    def test_variant_fabrication_intercepted(self):
+        """评审 OB-1 回归：真名变体（店名 ⊂ token）不得豁免——「测试海鲜楼分店」是编造。"""
+        v = check_output(ok_raw("测试海鲜楼不错，测试海鲜楼分店也开张了。", ["测试海鲜楼"]), CAND, ALL_NAMES)
+        assert not v.ok and any("分店" in viol for viol in v.violations)
+
     def test_candidate_fragment_not_flagged(self):
-        """候选店名被标点截断的片段（如括号前半段）不误杀。"""
+        """候选店名被标点截断的片段（token ⊂ 店名）不误杀。"""
         cand = [mk_shop("双合园锅贴(台东老铺)", tags=("锅贴", "老字号"))]
         v = check_output(
             ok_raw("双合园锅贴(台东老铺)主打锅贴、老字号。", ["双合园锅贴(台东老铺)"]),
@@ -72,6 +77,11 @@ class TestR4FabricatedName:
     def test_tag_word_not_flagged(self):
         v = check_output(ok_raw("主打海鲜，人均 50。", []), CAND, ALL_NAMES)
         assert v.ok, f"品类词误杀: {v.violations}"
+
+    def test_extract_suspect_variant(self):
+        """评审 OB-2：近似真名的变体是最高危幻觉形态，直接对启发式函数断言。"""
+        cand = [mk_shop("测试海鲜楼")]
+        assert extract_suspect_shopnames("新开的测试海鲜楼分店人也少。", cand) != set()
 
 
 class TestStrip:

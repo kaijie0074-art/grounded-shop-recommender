@@ -35,6 +35,11 @@ class ShopStore:
         """库内全部店名，供回校器做"夹带检测"。"""
         return [s.name for s in self._shops.values()]
 
+    @property
+    def all_shops(self) -> list[Shop]:
+        """公开只读视图：数据质量检查等场景使用，不暴露内部容器（评审 OB-4）。"""
+        return list(self._shops.values())
+
     def _staleness_days(self, shop: Shop) -> int:
         return (self.reference_date - shop.last_verified_at).days
 
@@ -48,14 +53,14 @@ class ShopStore:
         staleness_penalty = self._staleness_days(shop) / 30.0  # 越老分越低，平滑降权
         return shop.rating * 2 + tag_hits * 1.5 + verified_bonus - staleness_penalty
 
-    def select(self, pq: ParsedQuery, *, top_k: int = 3, min_rating: float = 0.0) -> list[Shop]:
+    def select(self, pq: ParsedQuery, *, top_k: int = 3) -> list[Shop]:
         """规则排序选出候选集。候选为空 = 拒答，绝不降级到自由生成。"""
         want_tags = pq.tags - {ANY_TAG}
         pool = [
             s for s in self._shops.values()
             if self._visible(s)
             and (not pq.areas or s.area in pq.areas)
-            and s.rating >= min_rating
+            and s.rating >= 0  # pydantic 已保证 ≥0；显式保留可读性
             and (pq.max_price is None or (s.avg_price is not None and s.avg_price <= pq.max_price))
             and (not want_tags or (set(s.tags) & want_tags))
         ]

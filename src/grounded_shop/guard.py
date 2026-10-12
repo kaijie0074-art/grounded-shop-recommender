@@ -30,7 +30,7 @@ NAME_SUFFIX = (
     "羊汤|面馆|菜馆|食堂|厨房|小厨|烤肉店|总店|分店|老店|旗舰店|店|馆|楼|舫|铺|坊|斋|轩|阁|庄|城"
 )
 SUSPECT_PATTERN = re.compile(r"[\u4e00-\u9fa5A-Za-z0-9·]{2,14}(?:" + NAME_SUFFIX + ")")
-
+VARIANT_PATTERN = re.compile(r"[\u4e00-\u9fa5]{2,14}(?:分店|总店|新店|老店|旗舰店|二店|三店|[0-9一二三]店)")
 # 豁免：常用普通词汇（非店名）
 COMMON_WORDS = {
     "小店", "老店", "店铺", "门店", "店名", "营业", "电话", "步行街", "利群",
@@ -52,21 +52,33 @@ def extract_mentions(text: str, known_names: list[str]) -> set[str]:
 
 
 def extract_suspect_shopnames(text: str, candidates: list[Shop]) -> set[str]:
-    """R4：后缀模式启发式提取疑似店名，不锚定在候选集上即违规。
+    """R4：两遍检测，不锚定在候选集上的疑似店名即违规。
 
-    豁免三通道（受控，不放松对编造名的拦截）：
-      a) token ∈ 常用词豁免词典
-      b) token 与任一候选店名互为子串（店名被标点截断的片段，如"双合园锅贴"）
-      c) token ∈ 候选店 tags 并集（受控品类词表，如"主打馄饨、烧烤"）
+    pass-1（变体模式，零启发式）：候选店名后紧跟 分店/总店/新店/旗舰/二店…
+    是明确的编造变体（"测试海鲜楼分店"⊃"测试海鲜楼"），直接违规（评审 OB-1）。
+
+    pass-2（后缀启发式）：先抹除文本中完整出现的候选店名（合法提及不参与
+    启发式，"给你推荐测试海鲜楼"里的店名片段不误杀），再对剩余文本跑
+    店名后缀模式。命中即违规（"老张秘制海鲜楼"这类纯编造名）。
+    豁免通道：常用词词典 / 候选 tags 词表及其前缀 / 含"的"短语 / 动词开头短语。
+    误杀代价 = 降级到零 LLM 兜底（安全）；漏杀代价 = 编造名到达用户（信任归零）。
+    宁可误杀。
     """
     names = [s.name for s in candidates]
     tag_words = {t for s in candidates for t in s.tags}
     suspects: set[str] = set()
-    for m in SUSPECT_PATTERN.finditer(text):
+
+    for n in names:
+        for m in VARIANT_PATTERN.finditer(text):
+            if n in m.group(0):
+                suspects.add(m.group(0))
+
+    scrubbed = text
+    for n in sorted(names, key=len, reverse=True):
+        scrubbed = scrubbed.replace(n, "§")
+    for m in SUSPECT_PATTERN.finditer(scrubbed):
         token = m.group(0)
         if token in COMMON_WORDS:
-            continue
-        if any(token in n or n in token for n in names):
             continue
         if token in tag_words or any(t.startswith(token) for t in tag_words):
             continue
