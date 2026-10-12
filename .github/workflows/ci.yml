@@ -1,0 +1,19 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: 幻觉回归集（50 条 × 双 provider，必须 100% 通过）
+        run: python -m pytest tests/ -q
+      - name: bug 现场仍可复现（保留回归演示能力）
+        run: python repro/naive_direct_answer.py
