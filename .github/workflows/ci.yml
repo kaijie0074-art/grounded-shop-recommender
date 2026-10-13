@@ -7,6 +7,9 @@ on:
 jobs:
   regression:
     runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -16,8 +19,5 @@ jobs:
       - name: 单元测试 + 幻觉回归集（真实 LLM 部分无凭证自动跳过）
         run: python -m pytest tests/ -q
       - name: 真实 LLM 幻觉回归（有凭证时运行）
-        if: ${{ secrets.OPENAI_API_KEY != '' }}
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+        if: env.OPENAI_API_KEY != ''
         run: python -m pytest tests/test_regression.py -q
