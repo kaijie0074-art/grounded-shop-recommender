@@ -18,8 +18,12 @@ class LLMProvider(Protocol):
 class EnvBackedLLM:
     """真实 API provider（OpenAI 兼容协议）。"""
 
-    def __init__(self, *, model: str = "glm-4-flash", base_url: str | None = None, api_key: str | None = None):
-        self._model = model
+    def __init__(self, *, model: str | None = None, base_url: str | None = None,
+                 api_key: str | None = None, timeout: int | None = None):
+        # GROUNDED_SHOP_MODEL/GROUNDED_SHOP_TIMEOUT 支持不改代码切换模型做对比实验
+        # （深潜 Q5：glm-5.3-flash reasoning 输出需更长超时，默认 30s 不够）
+        self._model = model or os.environ.get("GROUNDED_SHOP_MODEL", "glm-4-flash")
+        self._timeout = timeout or int(os.environ.get("GROUNDED_SHOP_TIMEOUT", "30"))
         self._base_url = base_url or os.environ.get("OPENAI_BASE_URL", "https://open.bigmodel.cn/api/paas/v4/")
         self._api_key = api_key or os.environ.get("OPENAI_API_KEY")
         if not self._api_key:
@@ -40,6 +44,6 @@ class EnvBackedLLM:
             data=body,
             headers={"Content-Type": "application/json", "Authorization": f"Bearer {self._api_key}"},
         )
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=self._timeout) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
         return payload["choices"][0]["message"]["content"]

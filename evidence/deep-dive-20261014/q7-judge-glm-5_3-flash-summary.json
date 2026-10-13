@@ -1,0 +1,10 @@
+{
+  "model": "glm-5.3-flash",
+  "n": 20,
+  "tp": 10,
+  "fp": 0,
+  "fn": 0,
+  "tn": 10,
+  "recall": 1.0,
+  "precision": 1.0
+}

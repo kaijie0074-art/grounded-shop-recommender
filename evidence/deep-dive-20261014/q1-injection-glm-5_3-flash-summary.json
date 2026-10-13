@@ -1,0 +1,10 @@
+{
+  "model": "glm-5.3-flash",
+  "n": 20,
+  "first_pass": 1,
+  "retry_passed": 3,
+  "stripped": 11,
+  "fallback_template": 5,
+  "refused": 0,
+  "leaked": 0
+}

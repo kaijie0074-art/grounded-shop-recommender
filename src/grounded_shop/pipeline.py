@@ -54,8 +54,8 @@ def answer_query(query: str, store: ShopStore, llm: LLMProvider | None = None) -
             final_text = verdict2.answer
         else:
             # 第 2 步：剥离违规句（guardrails 的 filter 动作）
-            stripped = guard.strip_violating_sentences(verdict2.answer, verdict2.violations, all_names)
-            if stripped and not (guard.extract_mentions(stripped, all_names) & verdict2.violations):
+            stripped = guard.strip_violating_sentences(verdict2.answer, verdict2.violations, all_names, candidates)
+            if stripped:
                 events.append(GuardEvent(type="STRIP_SENTENCES", detail=f"stripped={sorted(verdict2.violations)}"))
                 final_text = stripped
             else:

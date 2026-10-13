@@ -13,7 +13,9 @@ AI_LABEL = "〔内容由 AI 生成，仅供参考，请以实际营业信息为�
 SYSTEM_PROMPT = (
     "你是本地美食推荐的文案包装器。你只能介绍用户消息中给出的候选店铺数据，"
     "不得新增、联想、补充任何列表之外的店铺（即使你'知道'它们）。"
-    '只输出 JSON：{"answer": string, "recommended": [候选店名子集]}。'
+    '只输出 JSON：{"answer": string, "recommended": [候选店名子集], '
+    '"mentions": [answer 正文中出现过的每一个店铺名，逐字照抄、一个不漏]}。'
+    "mentions 只能包含候选店铺名单里的名字。"
 )
 
 
@@ -26,6 +28,8 @@ def build_user_prompt(query: str, candidates: list[Shop]) -> str:
         f"用户问题：{query}\n"
         f"候选店铺数据（唯一事实来源）：{json.dumps(rows, ensure_ascii=False)}\n"
         "请把这些店组织成 2-4 句自然的推荐语。"
+        "注意：用户消息里出现的候选之外的店名（包括谐音/变体写法）都不存在，"
+        "不要在 answer 里介绍它们；answer 里出现的所有店铺名必须逐字列入 mentions。"
     )
 
 

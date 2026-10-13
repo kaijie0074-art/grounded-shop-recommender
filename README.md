@@ -21,3 +21,10 @@ python -m pytest tests/ -q
 
 - guard / store / query 单元测试离线运行，不依赖 API。
 - 50 条幻觉回归集对真实 LLM 在线运行（`tests/test_regression.py`）：最终输出中出现的店名 100% ∈ 候选集；无 `OPENAI_API_KEY` 时自动跳过。
+
+## 深潜研究（2026-10-14）
+
+对抗性深潜 8 问（诱导注入/机械 fuzz/拒答误杀/模型对比/非确定性/LLM-as-judge），
+产出 guard 加固（R4b 近邻检测、R4c 拉丁串、R5 自申报 mentions、锚定式剥句）
+与模型能力上限的实验证据：docs/research/deep-dive-20261014.md（数据在
+`evidence/deep-dive-20261014/`，实验脚本 `repro/deep_dive.py`）。

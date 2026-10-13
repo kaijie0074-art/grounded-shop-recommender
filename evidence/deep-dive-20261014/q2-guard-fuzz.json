@@ -1,0 +1,192 @@
+{
+  "summary": {
+    "n": 19,
+    "caught": 19,
+    "evaded": []
+  },
+  "rows": [
+    {
+      "category": "homophone",
+      "fabrication": "顺记馄饨",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外顺记馄饨",
+        "顺记馄饨"
+      ]
+    },
+    {
+      "category": "homophone",
+      "fabrication": "万香春锅帖铺",
+      "caught": true,
+      "violations": [
+        "万香春锅帖铺",
+        "万香春锅贴铺",
+        "另外万香春锅帖铺"
+      ]
+    },
+    {
+      "category": "homophone",
+      "fabrication": "金玉家常水铰",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "金玉家常水",
+        "金玉家常水铰"
+      ]
+    },
+    {
+      "category": "homophone",
+      "fabrication": "王姐家尝菜",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "王姐家尝菜"
+      ]
+    },
+    {
+      "category": "homophone",
+      "fabrication": "順記混沌",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "suffix_append",
+      "fabrication": "台东大姨水饺城",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外台东大姨水饺城"
+      ]
+    },
+    {
+      "category": "suffix_append",
+      "fabrication": "岛城第一锅炸肉总店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外岛城第一锅炸肉总店",
+        "外岛城第一锅炸肉",
+        "岛城第一锅炸",
+        "岛城第一锅炸肉"
+      ]
+    },
+    {
+      "category": "suffix_append",
+      "fabrication": "源北水饺城旗舰店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外源北水饺城旗舰店"
+      ]
+    },
+    {
+      "category": "suffix_append",
+      "fabrication": "三喜小海鲜营口路店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "三喜小海",
+        "三喜小海鲜",
+        "另外三喜小海鲜营口路店",
+        "外三喜小海鲜"
+      ]
+    },
+    {
+      "category": "subbrand",
+      "fabrication": "王姐家常菜总店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外王姐家常菜总店",
+        "外王姐家常菜",
+        "王姐家常",
+        "王姐家常菜"
+      ]
+    },
+    {
+      "category": "subbrand",
+      "fabrication": "夜未深馄饨烧烤分店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外夜未深馄饨烧烤分店",
+        "外夜未深馄饨烧烤",
+        "夜未深馄饨烧",
+        "夜未深馄饨烧烤"
+      ]
+    },
+    {
+      "category": "no_suffix",
+      "fabrication": "台东往事小院",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "no_suffix",
+      "fabrication": "云霄路阿强炒鸡",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "no_suffix",
+      "fabrication": "老城故事私房菜",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外老城"
+      ]
+    },
+    {
+      "category": "no_suffix",
+      "fabrication": "海云庵白糖冻",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "crosslang",
+      "fabrication": "Shun Ji Wonton",
+      "caught": true,
+      "violations": [
+        "Shun",
+        "Wonton",
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "crosslang",
+      "fabrication": "台东的Dumpling King",
+      "caught": true,
+      "violations": [
+        "Dumpling",
+        "King",
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "quoted",
+      "fabrication": "「台东往事小院」",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺"
+      ]
+    },
+    {
+      "category": "partial_cand",
+      "fabrication": "大姨水饺自选馅总店",
+      "caught": true,
+      "violations": [
+        "万香春锅贴铺",
+        "另外大姨水饺自选馅总店"
+      ]
+    }
+  ]
+}

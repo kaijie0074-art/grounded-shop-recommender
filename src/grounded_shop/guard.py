@@ -22,6 +22,34 @@ import re
 
 from .models import Shop
 
+
+def _robust_json(raw: str) -> dict:
+    """R1 硬化：真实模型常把 JSON 包进 ```json 围栏或夹带前后缀噪声。
+
+    深潜 Q2 修复：严格 json.loads 令围栏输出全部降级 parse_error → 兜底模板，
+    误杀率 100%（实测 glm-4-flash 新提示词下 3/3 触发）。三段式解析：
+    直接解析 → 剥围栏 → 截取首个 { 到末个 }。
+    """
+    s = raw.strip()
+    try:
+        return json.loads(s)
+    except Exception:
+        pass
+    if s.startswith("```"):
+        lines = s.splitlines()
+        body = lines[1:]
+        if body and body[-1].strip().startswith("```"):
+            body = body[:-1]
+        try:
+            return json.loads("\n".join(body))
+        except Exception:
+            pass
+    i, j = s.find("{"), s.rfind("}")
+    if i != -1 and j > i:
+        return json.loads(s[i:j + 1])
+    raise ValueError("no JSON object found")
+
+
 SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?])\s*|\n")
 
 # 店名常见后缀/品类词（R4 启发式）
@@ -38,6 +66,10 @@ COMMON_WORDS = {
     "台东三路步行街", "数据还在完善中",
 }
 VERB_PREFIX = ("吃", "喝", "去", "来", "找", "想", "要", "点", "逛", "买", "推荐", "试试", "看看", "挑", "主打")
+# 连接词豁免（深潜 Q2' 发现的误杀类："以其锅贴""锅贴和饺子""则是一家小店"）：
+# 紧邻后缀词的 以/和/家 等连接字引出的是普通短语，不是店名；库内店名无一以此收尾。
+SUFFIX_CONNECTORS = ("以", "和", "与", "或", "跟", "配", "加", "做", "家")
+_SUFFIXES = sorted(NAME_SUFFIX.split("|"), key=len, reverse=True)
 
 
 def extract_mentions(text: str, known_names: list[str]) -> set[str]:
@@ -86,8 +118,84 @@ def extract_suspect_shopnames(text: str, candidates: list[Shop]) -> set[str]:
             continue
         if any(token.startswith(v) for v in VERB_PREFIX):
             continue
-        suspects.add(token)
+        # 连接词豁免：后缀前紧邻连接字（和饺子/一家小店/以其锅贴）→ 普通短语。
+        # "和饺子馆"（子+馆，连接字不紧邻后缀）不受影响。
+        exempt = False
+        for suf in _SUFFIXES:
+            if token.endswith(suf):
+                head = token[: -len(suf)]
+                exempt = bool(head) and (head[-1] in SUFFIX_CONNECTORS or head.endswith("以其"))
+                break
+        if not exempt:
+            suspects.add(token)
     return suspects
+
+LATIN_SUSPECT = re.compile(r"[A-Za-z][A-Za-z'&·\-]{3,}")
+CJK_RUN = re.compile(r"[\u4e00-\u9fa5]{2,}")
+
+
+def _norm_name(s: str) -> str:
+    """比较用归一化：只保留 CJK 与字母数字（去括号、间隔号等符号）。"""
+    return "".join(c for c in s if "\u4e00" <= c <= "\u9fa5" or c.isalnum())
+
+
+def _levenshtein_le(a: str, b: str, limit: int = 1) -> bool:
+    """带剪枝的编辑距离：distance(a, b) <= limit 时 True。"""
+    if abs(len(a) - len(b)) > limit:
+        return False
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        row_best = i
+        for j, cb in enumerate(b, 1):
+            v = min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb))
+            cur.append(v)
+            row_best = min(row_best, v)
+        if row_best > limit:
+            return False
+        prev = cur
+    return prev[-1] <= limit
+
+
+def extract_near_miss_shopnames(text: str, candidates: list[Shop], all_names: list[str]) -> set[str]:
+    """R4b：近邻编造检测——与库内任一店名（归一化后）编辑距离 ≤1 的窗口。
+
+    深潜研究 2026-10-14 Q2 发现的绕过面：改一个字的后缀谐音变体
+    （金玉家常水铰/王姐家尝菜）不再命中任何店名后缀，pass-2 全漏。
+    变体名几乎总是从真名派生（保留绝大多数字符），而合法短语与店名
+    距离 ≤1 的概率极低（"想吃家常菜" vs "王姐家常菜" 距离 2）。
+    阈值取 1：宁紧勿松，误杀代价是降级兜底（安全）。
+    繁体/多字改写（順記混沌，距离 4）仍会绕过——已记录为已知缺口。
+    """
+    ref = {_norm_name(n) for n in list(all_names) + [s.name for s in candidates]}
+    ref.discard("")
+    if not ref:
+        return set()
+    scrubbed = text
+    for n in sorted({s.name for s in candidates}, key=len, reverse=True):
+        scrubbed = scrubbed.replace(n, "§")
+    found: set[str] = set()
+    for run_m in CJK_RUN.finditer(scrubbed):
+        run = _norm_name(run_m.group(0))
+        for name in ref:
+            L = len(name)
+            for w in (L - 1, L, L + 1):
+                if w < 2 or w > len(run):
+                    continue
+                for s in range(len(run) - w + 1):
+                    if _levenshtein_le(run[s:s + w], name, 1):
+                        found.add(run[s:s + w])
+                        break
+    return found
+
+
+def extract_latin_suspects(text: str) -> set[str]:
+    """R4c：拉丁字母连串（≥4 字符）视为疑似编造（Shun Ji Wonton 这类跨语言写法）。
+
+    本域输出为中文推荐语；正文中出现 ≥4 字符的拉丁串几乎只有编造店名的
+    外语写法一种来源。AI 标识（"AI"，2 字符）不受影响。"""
+    return {m.group(0) for m in LATIN_SUSPECT.finditer(text)}
+
 
 
 class GuardVerdict:
@@ -103,7 +211,7 @@ class GuardVerdict:
 def check_output(raw: str, candidates: list[Shop], all_names: list[str]) -> GuardVerdict:
     candidate_names = {s.name for s in candidates}
     try:
-        data = json.loads(raw)
+        data = _robust_json(raw)
         answer = str(data["answer"])
         recommended = [str(n) for n in data.get("recommended", [])]
     except Exception:
@@ -114,24 +222,54 @@ def check_output(raw: str, candidates: list[Shop], all_names: list[str]) -> Guar
     # R3：库内其他店混进 answer
     text_mentions = extract_mentions(answer, all_names)
     violations |= {n for n in text_mentions if n not in candidate_names}
-    # R4：编造店名（启发式）
+    # R4：编造店名（后缀启发式）
     violations |= extract_suspect_shopnames(answer, candidates)
-
+    # R4b：近邻编造（错一字谐音变体）；R4c：拉丁字母串（跨语言写法）
+    violations |= extract_near_miss_shopnames(answer, candidates, all_names)
+    violations |= extract_latin_suspects(answer)
+    # R5：自申报 mentions——正文里出现过的每个店名必须逐字申报，且 ⊆ 候选集。
+    # 把"正文未知实体"转成结构化字段锚定：无后缀编造名（台东往事小院）只有
+    # 靠模型如实申报才能被机械捕获（申报可靠性实测见 docs/research/deep-dive-20261014.md Q7）。
+    declared = data.get("mentions")
+    # 缺失 mentions 视同申报为空：正文里出现任何候选店名都算漏报（强制申报习惯）
+    declared_set = {str(m) for m in declared} if isinstance(declared, list) else set()
+    violations |= declared_set - candidate_names  # R5a：申报了候选外的名字
+    violations |= extract_mentions(answer, candidate_names) - declared_set  # R5b：漏报
     if violations:
         return GuardVerdict(ok=False, answer=answer, recommended=recommended, violations=violations)
     return GuardVerdict(ok=True, answer=answer, recommended=[n for n in recommended if n in candidate_names])
 
 
-def strip_violating_sentences(text: str, violations: set[str], all_names: list[str]) -> str:
-    """删除包含违规店名的句子；若剥离后仍残留违规则返回空串（由上层降级兜底）。"""
+def text_violations(text: str, candidates: list[Shop], all_names: list[str]) -> set[str]:
+    """对裸文本跑全部文本类规则（R3/R4/R4b/R4c）——剥句后复检用。"""
+    cand_names = {s.name for s in candidates}
+    violations = {n for n in extract_mentions(text, all_names) if n not in cand_names}
+    violations |= extract_suspect_shopnames(text, candidates)
+    violations |= extract_near_miss_shopnames(text, candidates, all_names)
+    violations |= extract_latin_suspects(text)
+    return violations
+
+
+def strip_violating_sentences(text: str, violations: set[str], all_names: list[str],
+                              candidates: list[Shop] | None = None) -> str:
+    """锚定式剥句（深潜 Q2' 修复）：只保留同时满足两个条件的句子——
+    1. 不含任何违规串；2. 锚定了候选店名（提及至少一个候选）。
+
+    旧版"只删违规句"会把未被机械规则识别的编造句留在输出里（实测泄漏：
+    "台东往事小院如果还在的话…"整句保留）。白名单式剥句让降级路径的
+    每个事实句都锚定在候选集上；全空则由上层降级到零 LLM 模板。
+    剥离后跑一次全量文本规则（text_violations）做双保险。
+    """
     if not text:
         return ""
+    cand = candidates if candidates is not None else []
+    cand_names = {s.name for s in cand} or set(all_names)
     sentences = [s for s in SENTENCE_SPLIT.split(text) if s.strip()]
-    kept = [s for s in sentences if not any(v in s for v in violations)]
+    kept = [s for s in sentences
+            if not any(v in s for v in violations) and any(c in s for c in cand_names)]
     out = "\n".join(kept)
-    # 双保险：剥离后再全量检查一次（含库内店名与启发式）
-    residue = extract_mentions(out, all_names) & violations
-    residue |= {v for v in violations if v in out}
-    if residue:
+    if not out:
+        return ""
+    if text_violations(out, cand, all_names):
         return ""
     return out

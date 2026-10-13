@@ -1,0 +1,10 @@
+{
+  "model": "glm-4-flash",
+  "n": 30,
+  "exact": 15,
+  "subset_ok": 23,
+  "oov_emitted": 0,
+  "missed_intent": 7,
+  "false_mapping": 7,
+  "chat_false_trigger": 0
+}

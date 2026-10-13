@@ -1,0 +1,389 @@
+[
+  {
+    "id": "n01",
+    "pred_areas": [],
+    "pred_tags": [
+      "烧烤"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n02",
+    "pred_areas": [],
+    "pred_tags": [
+      "烧烤",
+      "羊肉",
+      "辣"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "羊肉",
+      "辣"
+    ]
+  },
+  {
+    "id": "n03",
+    "pred_areas": [],
+    "pred_tags": [
+      "饺子",
+      "馄饨"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "锅贴"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n04",
+    "pred_areas": [],
+    "pred_tags": [
+      "面食"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n05",
+    "pred_areas": [],
+    "pred_tags": [
+      "海鲜",
+      "大排档"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "大排档"
+    ]
+  },
+  {
+    "id": "n06",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "深夜"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n07",
+    "pred_areas": [],
+    "pred_tags": [
+      "啤酒屋",
+      "海鲜"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n08",
+    "pred_areas": [],
+    "pred_tags": [
+      "家常菜"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n09",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n10",
+    "pred_areas": [
+      "台东"
+    ],
+    "pred_tags": [
+      "烧烤",
+      "海鲜"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "台东"
+    ]
+  },
+  {
+    "id": "n11",
+    "pred_areas": [],
+    "pred_tags": [
+      "老字号"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n12",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "早餐"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n13",
+    "pred_areas": [],
+    "pred_tags": [
+      "辣",
+      "麻辣烫"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n14",
+    "pred_areas": [],
+    "pred_tags": [
+      "小吃",
+      "炸串"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "小吃"
+    ]
+  },
+  {
+    "id": "n15",
+    "pred_areas": [],
+    "pred_tags": [
+      "啤酒屋"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n16",
+    "pred_areas": [],
+    "pred_tags": [
+      "深夜",
+      "烧烤",
+      "炸串",
+      "啤酒屋"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "炸串"
+    ]
+  },
+  {
+    "id": "n17",
+    "pred_areas": [],
+    "pred_tags": [
+      "饺子"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n18",
+    "pred_areas": [],
+    "pred_tags": [
+      "小吃"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [],
+    "false_map": [
+      "小吃"
+    ]
+  },
+  {
+    "id": "n19",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n20",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n21",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n22",
+    "pred_areas": [
+      "台东"
+    ],
+    "pred_tags": [],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n23",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "登州路"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n24",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "早餐"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n25",
+    "pred_areas": [],
+    "pred_tags": [
+      "海鲜",
+      "烧烤"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n26",
+    "pred_areas": [],
+    "pred_tags": [
+      "面食"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n27",
+    "pred_areas": [],
+    "pred_tags": [],
+    "oov": [],
+    "exact": false,
+    "subset_ok": true,
+    "miss": [
+      "海鲜"
+    ],
+    "false_map": []
+  },
+  {
+    "id": "n28",
+    "pred_areas": [],
+    "pred_tags": [
+      "深夜"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n29",
+    "pred_areas": [],
+    "pred_tags": [
+      "辣"
+    ],
+    "oov": [],
+    "exact": true,
+    "subset_ok": true,
+    "miss": [],
+    "false_map": []
+  },
+  {
+    "id": "n30",
+    "pred_areas": [],
+    "pred_tags": [
+      "小店",
+      "早餐"
+    ],
+    "oov": [],
+    "exact": false,
+    "subset_ok": false,
+    "miss": [
+      "家常菜",
+      "苍蝇馆子"
+    ],
+    "false_map": [
+      "早餐"
+    ]
+  }
+]

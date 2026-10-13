@@ -1,0 +1,10 @@
+{
+  "model": "glm-4-flash",
+  "n": 10,
+  "distinct_answers": 10,
+  "guard_seq_distribution": {
+    "RETRY_TRIGGERED,FALLBACK_TEMPLATE": 1,
+    "PASS": 4,
+    "RETRY_TRIGGERED,RETRY_PASSED": 5
+  }
+}

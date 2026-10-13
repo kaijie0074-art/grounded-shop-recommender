@@ -1,0 +1,328 @@
+{
+  "n_expect_hit": 25,
+  "rule_false_refuse": 7,
+  "false_refuse_ids": [
+    "n03",
+    "n07",
+    "n13",
+    "n24",
+    "n28",
+    "n29",
+    "n30"
+  ],
+  "rows": [
+    {
+      "id": "n01",
+      "q": "晚上撸串去哪",
+      "gold": [
+        "烧烤"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "深夜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n02",
+      "q": "馋羊肉串了，来点烤串",
+      "gold": [
+        "烧烤"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "烧烤"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n03",
+      "q": "想吃点带馅儿的",
+      "gold": [
+        "饺子",
+        "锅贴",
+        "馄饨"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n04",
+      "q": "来碗热乎的汤面",
+      "gold": [
+        "面食"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "面食"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n05",
+      "q": "整点海鲜大咖",
+      "gold": [
+        "海鲜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "海鲜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n06",
+      "q": "深夜食堂，夜里饿了出来觅食",
+      "gold": [
+        "深夜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "深夜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n07",
+      "q": "来青岛必须哈啤酒吃蛤蜊",
+      "gold": [
+        "啤酒屋",
+        "海鲜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n08",
+      "q": "想吃点清淡的家常小炒",
+      "gold": [
+        "家常菜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "家常菜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n09",
+      "q": "兜里就二十块，想吃点便宜的",
+      "gold": [],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n10",
+      "q": "青岛哪里烧烤海鲜都有",
+      "gold": [
+        "烧烤",
+        "海鲜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "海鲜",
+        "烧烤"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n11",
+      "q": "想去老字号尝尝",
+      "gold": [
+        "老字号"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "老字号"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n12",
+      "q": "早餐想吃豆浆油条",
+      "gold": [
+        "早餐"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "早餐"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n13",
+      "q": "整点重口的，麻辣的",
+      "gold": [
+        "麻辣烫",
+        "辣"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n14",
+      "q": "想吃炸货，炸肉炸串都行",
+      "gold": [
+        "炸串"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "炸串"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n15",
+      "q": "海边吹完风想喝散啤",
+      "gold": [
+        "啤酒屋"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "啤酒屋"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n16",
+      "q": "想吃夜宵，串加啤酒",
+      "gold": [
+        "深夜",
+        "烧烤",
+        "啤酒屋"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "深夜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n17",
+      "q": "来盘饺子配蒜",
+      "gold": [
+        "饺子"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "饺子"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n18",
+      "q": "想吃锅盔烧饼",
+      "gold": [],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n22",
+      "q": "台东那一块有什么好吃的",
+      "gold": [
+        "台东"
+      ],
+      "rule_areas": [
+        "台东"
+      ],
+      "rule_tags": [],
+      "rule_refuses": false
+    },
+    {
+      "id": "n23",
+      "q": "啤酒街逛完吃点什么",
+      "gold": [
+        "登州路"
+      ],
+      "rule_areas": [
+        "登州路"
+      ],
+      "rule_tags": [],
+      "rule_refuses": false
+    },
+    {
+      "id": "n24",
+      "q": "早市附近有早饭吃吗",
+      "gold": [
+        "早餐"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n25",
+      "q": "想吃烤鱿鱼",
+      "gold": [
+        "烧烤",
+        "海鲜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "烧烤"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n26",
+      "q": "来点碳水，面条馒头都行",
+      "gold": [
+        "面食"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "面食"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n27",
+      "q": "想吃水灵灵的小海鲜",
+      "gold": [
+        "海鲜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [
+        "海鲜"
+      ],
+      "rule_refuses": false
+    },
+    {
+      "id": "n28",
+      "q": "凌晨两点还有吃的吗",
+      "gold": [
+        "深夜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n29",
+      "q": "想吃辣的，越辣越好",
+      "gold": [
+        "辣"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    },
+    {
+      "id": "n30",
+      "q": "想找那种夫妻老婆店小饭馆",
+      "gold": [
+        "苍蝇馆子",
+        "小店",
+        "家常菜"
+      ],
+      "rule_areas": [],
+      "rule_tags": [],
+      "rule_refuses": true
+    }
+  ]
+}

@@ -3,7 +3,8 @@
 使用真实 LLM API（OpenAI 兼容协议）。需要环境变量：
   OPENAI_API_KEY              必填，API 凭证
   OPENAI_BASE_URL             可选，默认智谱开放平台；可指向 DeepSeek 等兼容服务
-  GROUNDED_SHOP_MODEL         可选，模型名，默认 glm-4-flash
+  GROUNDED_SHOP_MODEL         可选，模型名，默认 glm-4-flash（EnvBackedLLM 内解析）
+  GROUNDED_SHOP_TIMEOUT       可选，请求超时秒数，默认 30（reasoning 模型建议 300）
 """
 import os
 import sys
@@ -23,7 +24,7 @@ def main() -> int:
             file=sys.stderr,
         )
         return 2
-    llm = EnvBackedLLM(model=os.environ.get("GROUNDED_SHOP_MODEL", "glm-4-flash"))
+    llm = EnvBackedLLM()
     query = " ".join(sys.argv[1:]) or "青岛台东附近有什么宝藏苍蝇馆子"
     store = ShopStore.load(Path(__file__).resolve().parents[2] / "data" / "shops.json")
     result = answer_query(query, store, llm)

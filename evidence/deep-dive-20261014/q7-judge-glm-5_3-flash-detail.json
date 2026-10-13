@@ -1,0 +1,163 @@
+[
+  {
+    "id": "j01",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j02",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j03",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j04",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j05",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j06",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j07",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j08",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j09",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j10",
+    "gold": [],
+    "pred": [],
+    "hit": null
+  },
+  {
+    "id": "j11",
+    "gold": [
+      "顺记馄饨"
+    ],
+    "pred": [
+      "顺记馄饨"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j12",
+    "gold": [
+      "台东往事小院"
+    ],
+    "pred": [
+      "台东往事小院"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j13",
+    "gold": [
+      "王姐家常菜总店"
+    ],
+    "pred": [
+      "王姐家常菜总店",
+      "王姐家常菜分店"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j14",
+    "gold": [
+      "Shun Ji Wonton"
+    ],
+    "pred": [
+      "Shun Ji Wonton"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j15",
+    "gold": [
+      "台东大姨水饺城"
+    ],
+    "pred": [
+      "台东大姨水饺城"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j16",
+    "gold": [
+      "云霄路阿强炒鸡"
+    ],
+    "pred": [
+      "云霄路阿强炒鸡"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j17",
+    "gold": [
+      "老张麻辣烫"
+    ],
+    "pred": [
+      "老张麻辣烫"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j18",
+    "gold": [
+      "源北水饺城旗舰店"
+    ],
+    "pred": [
+      "源北水饺城旗舰店"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j19",
+    "gold": [
+      "小院烧烤城"
+    ],
+    "pred": [
+      "隔壁小院烧烤城"
+    ],
+    "hit": true
+  },
+  {
+    "id": "j20",
+    "gold": [
+      "台东往事小院"
+    ],
+    "pred": [
+      "台东往事小院"
+    ],
+    "hit": true
+  }
+]
