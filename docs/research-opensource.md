@@ -41,8 +41,8 @@
 - 核心机制：声明式 YAML 用例（prompts × providers × asserts），断言类型库
   （contains / is-json / python / llm-rubric 等），CLI 跑评测、CI 门禁。
 - **借鉴点**：`tests/regression_queries.yaml` 的形态——50 条真实问法 + 每条期望
-  （命中/拒答）+ CI 强制 100% 通过。双 provider 矩阵（忠实 / 必幻觉）对应其
-  multi-provider 思想：同一个断言集同时验证「不误杀」与「不漏杀」两个方向。
+  （命中/拒答）+ CI 强制 100% 通过。同一断言集对真实 LLM provider 在线运行，
+  验证「不误杀」与「不漏杀」两个方向（无凭证环境自动跳过）。
 
 ## 5. 机制对照表
 

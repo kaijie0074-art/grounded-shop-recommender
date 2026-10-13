@@ -12,7 +12,6 @@ from pathlib import Path
 import pytest
 
 from grounded_shop import answer_query
-from grounded_shop.llm import TemplateWrapperLLM
 from grounded_shop.models import Shop
 from grounded_shop.query import parse_query
 from grounded_shop.store import ShopStore
@@ -42,10 +41,10 @@ class TestDataQuality:
         with pytest.raises(Exception):
             Shop(**{**_row("X1"), "source": ""})
 
-    def test_dataset_marked_simulated(self, store):
-        """数据诚信：种子数据集必须显式标注 SIMULATED。"""
+    def test_dataset_marked_seed(self, store):
+        """数据诚信：种子数据集必须显式标注来源与虚构性质。"""
         meta = json.loads((Path(__file__).parents[1] / "data" / "shops.json").read_text(encoding="utf-8"))["_meta"]
-        assert meta["dataset"] == "SIMULATED_SEED_DATA"
+        assert meta["dataset"] == "SEED_DATA"
 
 
 class TestStoreRules:
@@ -85,11 +84,11 @@ class TestQueryParse:
 
 class TestRefusalTelemetry:
     def test_refusal_logged_as_event(self, store):
-        result = answer_query("李沧区有什么好吃的", store, TemplateWrapperLLM())
+        result = answer_query("李沧区有什么好吃的", store)
         assert result.refused
         assert [e.type for e in result.guard_events] == ["REFUSE"]
         assert "数据还在完善中" in result.answer
 
     def test_no_match_refusal_mentions_known_tags(self, store):
-        result = answer_query("台东有法餐吗", store, TemplateWrapperLLM())
+        result = answer_query("台东有法餐吗", store)
         assert result.refused and "海鲜" in result.answer  # 引导到已收录品类

@@ -13,7 +13,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: 幻觉回归集（50 条 × 双 provider，必须 100% 通过）
+      - name: 单元测试 + 幻觉回归集（真实 LLM 部分无凭证自动跳过）
         run: python -m pytest tests/ -q
-      - name: bug 现场仍可复现（保留回归演示能力）
-        run: python repro/naive_direct_answer.py
+      - name: 真实 LLM 幻觉回归（有凭证时运行）
+        if: ${{ secrets.OPENAI_API_KEY != '' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+        run: python -m pytest tests/test_regression.py -q

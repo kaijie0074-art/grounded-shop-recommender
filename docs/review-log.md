@@ -21,3 +21,10 @@
 意见提出 → 作者逐条研判（3 采纳 / 1 部分采纳 / 1 登记后续）→ 修复 + 测试 →
 评审复核 approve → 负责人验收 → merge。单人无评审岗位的真实缺陷不是"没有评审"，
 而是"评审意见没有留痕与追责"——本文件即留痕。
+
+## 2026-10-13 移除模拟 provider
+
+应用户要求移除全部模拟元素：删除 `TemplateWrapperLLM`、`HallucinatingLLM`、
+`repro/naive_direct_answer.py`（幻觉注入演示脚本），`EnvBackedLLM`（OpenAI 兼容
+真实 API）成为唯一 provider。50 条回归集改为对真实 LLM 在线运行（无凭证自动
+跳过）。OB-5 的 token 计量仍未实现，继续登记后续。

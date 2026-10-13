@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from . import answer as answer_mod
 from . import guard
-from .llm import LLMProvider, TemplateWrapperLLM
+from .llm import EnvBackedLLM, LLMProvider
 from .models import GuardEvent, PipelineResult
 from .store import ShopStore
 from .wrappers import AI_LABEL, SYSTEM_PROMPT, build_user_prompt, render_template_answer
@@ -15,7 +15,8 @@ from .query import parse_query
 
 
 def answer_query(query: str, store: ShopStore, llm: LLMProvider | None = None) -> PipelineResult:
-    llm = llm or TemplateWrapperLLM()
+    # 拒答路径（覆盖外/无信号/无候选）不触达 LLM，无需凭证即可运行；
+    # 凭证检查推迟到真正需要调用 LLM 时
     pq = parse_query(query)
 
     if pq.out_of_coverage:
@@ -32,6 +33,8 @@ def answer_query(query: str, store: ShopStore, llm: LLMProvider | None = None) -
         text, ev = answer_mod.refuse_no_match(query_hint=query[:30])
         return PipelineResult(answer=text, guard_events=[ev], refused=True)
 
+    if llm is None:
+        llm = EnvBackedLLM()
     events: list[GuardEvent] = []
     all_names = store.all_names
 

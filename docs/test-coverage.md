@@ -19,15 +19,15 @@
 | S11 | LLM 文本夹带库内其他店（R3） | 拦截 → 处置链 | `TestR3CrossMention` |
 | S12 | LLM 完全编造店名（R4） | 拦截 → 处置链 | `TestR4FabricatedName` |
 | S13 | LLM 输出不可解析（R1） | 拦截 → 处置链 | `TestR1Parse` |
-| S14 | 必注入幻觉（每轮都编造） | 最终输出 0 泄漏（零漏杀） | `test_hit_cases_hallucinating_provider[35 条]` |
-| S15 | 忠实输出被误杀（假阳性） | 0 误杀，PASS 直通 | `test_hit_cases_faithful_provider` 全绿 |
+| S14 | 真实 LLM 偶发编造（任意违规输出） | 最终输出 0 泄漏（零漏杀，处置链兜底） | `test_hit_cases_real_llm` + `TestStrip` |
+| S15 | 忠实输出被误杀（假阳性） | 0 误杀，PASS 直通 | `test_hit_cases_real_llm` 全绿（有凭证时） |
 | S16 | 处置链逐级降级 | 剥句保干净句；全违规 → 空串触发兜底 | `TestStrip` |
 | S17 | 数据时效：超期未复验（>90 天） | 隐藏不进候选 | `test_staleness_hides_expired` |
 | S18 | 排序可解释性：高分在前 | 评分降序 | `test_rating_ranking_explainable` |
 | S19 | 数据可追溯：来源 100% 非空 | 校验失败即拒绝入库 | `test_all_sources_nonempty` / `test_source_placeholder_rejected` |
-| S20 | 数据诚信：种子集显式标注模拟 | `_meta.dataset` 断言 | `test_dataset_marked_simulated` |
+| S20 | 数据诚信：种子集显式标注虚构性质 | `_meta.dataset` 断言 | `test_dataset_marked_seed` |
 | S21 | 回归集防缩水 | 固定 50 条 | `test_regression_set_size` |
-| S22 | bug 现场可复现 | repro 脚本保持可运行 | CI 独立步骤 |
+| S22 | 回归集对真实 LLM 在线可用 | env-gated live 测试 | `test_regression.py`（无凭证自动跳过） |
 
 ## 判据对应（问题报告 §2.4）
 
